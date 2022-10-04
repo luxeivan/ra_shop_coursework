@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Banner from '../components/Banner'
 import ItemProduct from '../components/ItemProduct'
 import { Link } from 'react-router-dom'
-import { ajax } from 'rxjs/ajax'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { addNewProducts, fetchProducts } from '../store/productsSlice'
 
 export default function Catalog() {
-    const [products,setProducts] = useState([])
+    const products = useSelector((state) => state.products)
+    const dispatch = useDispatch()
+    // const [products,setProducts] = useState([])
     useEffect(() => {
-        ajax('http://localhost:7070/api/items').subscribe(result => {
-            console.log(result.response)
-            setProducts(result.response)
-        })
+        dispatch(fetchProducts())
     }, [])
     return (
         <div>
@@ -38,14 +39,14 @@ export default function Catalog() {
                     </li>
                 </ul>
                 <div className="row">
-                    {products.map(item=><ItemProduct product={item}/>)}
+                    {products && products.listProducts.map(item=><ItemProduct product={item} key={item.id}/>)}
+                    {/* <ItemProduct />
                     <ItemProduct />
                     <ItemProduct />
                     <ItemProduct />
                     <ItemProduct />
                     <ItemProduct />
-                    <ItemProduct />
-                    <ItemProduct />
+                    <ItemProduct /> */}
                 </div>
                 <div className="text-center">
                     <button className="btn btn-outline-primary">Загрузить ещё</button>
