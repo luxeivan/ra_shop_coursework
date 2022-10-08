@@ -3,8 +3,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async () => {
-    const data = await fetch('http://localhost:7070/api/items').then(responce => responce.json())
+  async ({ more = false }, { getState }) => {
+    const state = await getState()
+    // console.log(state)
+    let offset = 0
+    if (more) {
+      offset = state.products.offset
+    }
+    const data = await fetch(`http://localhost:7070/api/items?categoryId=${state.products.category}&offset=${offset}&q=${state.products.stringSearch}`).then(responce => responce.json())
+    //console.log(data)
     return data
   }
 )
@@ -15,42 +22,52 @@ export const productsSlice = createSlice({
     listProducts: [],
     isLoading: null,
     status: null,
-    error: null
+    error: null,
+    category: 0,
+    offset: 0,
+    stringSearch: '',
+    noMore: false
   },
   reducers: {
-    increment: (state) => {
-      state.value += 1
+    changeCategory: (state, action) => {
+      state.category = action.payload
+      state.noMore = false
     },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    // addNewProducts: (state, action) => {
-    //   let newProducts = []
-    //   ajax('http://localhost:7070/api/items').subscribe(result => {
-    //     console.log(result.response)
-    //     result.response.forEach(item => state.listProducts.push(item))
-    //   })
-    //   //state.list = newProducts
-    //   //newProducts.forEach(item => state.list.push(item))
-    //   // state.list.push({ "id": 20, "category": 13, "title": "Кроссовки как у Pharrell Williams", "price": 12000, "images": ["https://raw.githubusercontent.com/netology-code/ra16-diploma/master/html/img/products/pharrell_williams_sneakers.jpg", "https://raw.githubusercontent.com/netology-code/ra16-diploma/master/html/img/products/pharrell_williams_sneakers_2.jpg"] })
-    // },
-  },
-    extraReducers: {
-      [fetchProducts.pending]: (state, action) => {
-        state.isLoading = true
-        state.status = 'loading'
-        state.error = null
-      },
-      [fetchProducts.fulfilled]: (state, action) => {
-        state.status = 'success'
-        state.listProducts = action.payload
-      },
-      [fetchProducts.rejected]: (state, action) => { }
+    changeStringSearch: (state, action) => {
+      state.stringSearch = action.payload
     }
-  
-})
+  },
+  extraReducers: {
+    [fetchProducts.pending]: (state, action) => {
+      //console.log(action)
+      state.isLoading = true
+      state.status = 'loading'
+      state.error = null
 
-// Action creators are generated for each case reducer function
-export const { increment, decrement, addNewProducts } = productsSlice.actions
+    },
+    [fetchProducts.fulfilled]: (state, action) => {
+      state.status = 'success'
+      if (action.meta.arg.more) {
+        action.payload.forEach(item => state.listProducts.push(item))
+      } else {
+        state.listProducts = action.payload
+      }
+      if (action.payload.length < 6) {
+        state.noMore = true
+      }else{
+        state.noMore = false
+      }
+      //console.log(action)
+      state.offset = state.listProducts.length
+      state.isLoading = false
+    },
+    [fetchProducts.rejected]: (state, action) => {
+      state.status = 'rejected'
+      state.isLoading = false
+    }
+  }
+
+})
+export const { changeCategory, changeStringSearch } = productsSlice.actions
 
 export default productsSlice.reducer
