@@ -7,7 +7,10 @@ import { delCart } from '../store/cartSlice'
 export default function Cart() {
   const cart = useSelector(store => store.cart)
   const dispatch = useDispatch()
-  console.log(cart)
+
+  const handlerDel = (event) => {
+    dispatch(delCart(event.target.dataset.id))
+  }
   return (
     <>
       <section className="cart">
@@ -28,12 +31,12 @@ export default function Cart() {
             {cart.listCart.map((item, index) =>
               <tr key={index + 1}>
                 <td scope="row">{index + 1}</td>
-                <td><Link to={`/products/${item.id}`}>{item.title}</Link></td>
+                <td><Link to={`/catalog/${item.id}`}>{item.title}</Link></td>
                 <td>{item.size}</td>
                 <td>{item.count}</td>
                 <td>{item.price} руб.</td>
                 <td>{item.price * item.count} руб.</td>
-                <td><button className="btn btn-outline-danger btn-sm">Удалить</button></td>
+                <td><button className="btn btn-outline-danger btn-sm" data-id={item.id} onClick={handlerDel}>Удалить</button></td>
               </tr>
             )}
             <tr>

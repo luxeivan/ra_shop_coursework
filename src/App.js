@@ -9,8 +9,15 @@ import Contacts from './pages/Contacts';
 import Page404 from './pages/Page404';
 import Product from './pages/Product';
 import Cart from './pages/Cart';
+import { useEffect } from 'react';
+import { syncFromLocalStorage } from './store/cartSlice';
+import { useDispatch } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(syncFromLocalStorage())
+  }, [])
   return (
     <div className="App">
       <BrowserRouter>
