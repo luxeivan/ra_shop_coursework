@@ -6,13 +6,14 @@ import { changeStringSearch, fetchProducts } from '../store/productsSlice'
 
 export default function Header() {
   const [statusButton, setStatusButton] = useState(false)
+  const cart = useSelector(store => store.cart)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handlerSubmit = (event = null) => {
     event && event.preventDefault()
     setStatusButton(false)
     const searchText = document.getElementById('search-input').value
-    if(searchText.length>0){
+    if (searchText.length > 0) {
       dispatch(changeStringSearch(searchText))
       dispatch(fetchProducts({}))
       navigate("/catalog")
@@ -23,6 +24,11 @@ export default function Header() {
     setStatusButton(true)
     if (statusButton) {
       handlerSubmit()
+    }
+  }
+  const handlerCart = () => {
+    if (cart.listCart.length) {
+      navigate("/cart")
     }
   }
   return (
@@ -51,15 +57,15 @@ export default function Header() {
               <div>
                 <div className="header-controls-pics">
                   <div data-id="search-expander" className="header-controls-pic header-controls-search" onClick={handlerButtonSearch}></div>
-                  <div className="header-controls-pic header-controls-cart">
-                    <div className="header-controls-cart-full">1</div>
+                  <div className="header-controls-pic header-controls-cart" onClick={handlerCart}>
+                    {!cart.listCart.length < 1 && <div className="header-controls-cart-full">{cart.listCart.length}</div>}
                     <div className="header-controls-cart-menu"></div>
                   </div>
                 </div>
-                {statusButton && 
-                <form data-id="search-form" id="search-form" className="header-controls-search-form form-inline" onSubmit={handlerSubmit}>
-                  <input className="form-control" id="search-input" placeholder="Поиск" autoFocus/>
-                </form>
+                {statusButton &&
+                  <form data-id="search-form" id="search-form" className="header-controls-search-form form-inline" onSubmit={handlerSubmit}>
+                    <input className="form-control" id="search-input" placeholder="Поиск" autoFocus />
+                  </form>
                 }
               </div>
             </div>

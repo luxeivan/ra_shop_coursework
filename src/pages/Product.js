@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { useParams } from 'react-router'
 import Banner from '../components/Banner'
 import { fetchProduct } from '../store/productSlice'
-import { Link } from 'react-router-dom'
+import { addCart } from '../store/cartSlice'
 
 export default function Product() {
     const [count, setCount] = useState(1)
@@ -31,11 +32,20 @@ export default function Product() {
         setSize(event.target.dataset.size)
 
     }
+    const handlerAddCart = () => {
+        dispatch(addCart({
+            id: id,
+            title: currentProduct.title,
+            size: size,
+            count: count,
+            price: currentProduct.price,
+        }))
+    }
     return (
         <>
             <Banner />
             {!product.isLoading && <section className="catalog-item">
-            <Link to={`/catalog`} className="btn btn-outline-primary">🠔 В каталог</Link>
+                <Link to={`/catalog`} className="btn btn-outline-primary">🠔 В каталог</Link>
                 <h2 className="text-center">{currentProduct.title}</h2>
                 <div className="row">
                     <div className="col-5">
@@ -86,7 +96,7 @@ export default function Product() {
                             </span>
                             </p>
                         </div>
-                        <button className="btn btn-danger btn-block btn-lg" disabled={size===null}>В корзину</button>
+                        <button className="btn btn-danger btn-block btn-lg" disabled={size === null} onClick={handlerAddCart}>В корзину</button>
                     </div>
                 </div>
             </section>}

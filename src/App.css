@@ -370,3 +370,7 @@ h2,
   margin-left: 5px;
   cursor: pointer;
 }
+.card-cart{
+  max-width: 30rem; 
+  margin: 0 auto;
+}
