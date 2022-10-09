@@ -12,7 +12,6 @@ export default function Product() {
     const id = useParams().id
     const dispatch = useDispatch()
     useEffect(() => {
-        console.log(id)
         dispatch(fetchProduct(id))
     }, [])
     const currentProduct = product.currentProduct
@@ -36,7 +35,7 @@ export default function Product() {
         <>
             <Banner />
             {!product.isLoading && <section className="catalog-item">
-            <Link to={`/catalog`} className="btn btn-outline-primary">В каталог</Link>
+            <Link to={`/catalog`} className="btn btn-outline-primary">🠔 В каталог</Link>
                 <h2 className="text-center">{currentProduct.title}</h2>
                 <div className="row">
                     <div className="col-5">

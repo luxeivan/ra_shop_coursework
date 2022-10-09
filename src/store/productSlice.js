@@ -4,7 +4,6 @@ export const fetchProduct = createAsyncThunk(
     'products/fetchProduct',
     async (id) => {
         const data = await fetch(`http://localhost:7070/api/items/${id}`).then(responce => responce.json())
-        console.log(data)
         return data
     }
 )
@@ -19,7 +18,6 @@ export const productSlice = createSlice({
     },
     extraReducers: {
         [fetchProduct.pending]: (state, action) => {
-            console.log('Get')
             state.isLoading = true
         },
         [fetchProduct.fulfilled]: (state, action) => {

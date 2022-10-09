@@ -365,5 +365,8 @@ h2,
   background-color: #D4E4E6;
 }
 .catalog-item-size{
+  border: 1px solid #727e86;
+  border-radius: 15px;
+  margin-left: 5px;
   cursor: pointer;
 }
