@@ -11,7 +11,10 @@ export default function Catalog(props) {
     const categories = useSelector((state) => state.categories)
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(fetchProducts({}))
+        if(products.listProducts.length<6){
+
+            dispatch(fetchProducts({}))
+        }
         dispatch(fetchCategories())
     }, [])
 

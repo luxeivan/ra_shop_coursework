@@ -5,13 +5,11 @@ export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async ({ more = false }, { getState }) => {
     const state = await getState()
-    // console.log(state)
     let offset = 0
     if (more) {
       offset = state.products.offset
     }
     const data = await fetch(`http://localhost:7070/api/items?categoryId=${state.products.category}&offset=${offset}&q=${state.products.stringSearch}`).then(responce => responce.json())
-    //console.log(data)
     return data
   }
 )
@@ -57,7 +55,6 @@ export const productsSlice = createSlice({
       }else{
         state.noMore = false
       }
-      //console.log(action)
       state.offset = state.listProducts.length
       state.isLoading = false
     },

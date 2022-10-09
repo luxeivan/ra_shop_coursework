@@ -236,11 +236,13 @@ section {
   height: 200px;
   object-fit: contain;
 }
-.card-text{
+
+.card-text {
   height: 50px;
   text-align: left;
 }
-.card-body{
+
+.card-body {
   text-align: center;
 }
 
@@ -350,4 +352,18 @@ h2,
 .btn-outline-primary:hover {
   background-color: #727e86;
   border-color: #727e86;
+}
+
+.button-back {
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.button-back:hover {
+  background-color: #D4E4E6;
+}
+.catalog-item-size{
+  cursor: pointer;
 }
