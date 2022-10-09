@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { redirect, useNavigate } from 'react-router'
 
 export const fetchCart = createAsyncThunk(
   'cart/fetchCart',
@@ -11,7 +12,7 @@ export const fetchCart = createAsyncThunk(
         },
         method: "POST",
         body: JSON.stringify(order)
-      }).then(responce => responce.json())
+      }).then(responce => responce.status)
     return data
   }
 )
@@ -47,7 +48,10 @@ export const cartSlice = createSlice({
       state.isSend = true
     },
     [fetchCart.fulfilled]: (state, action) => {
-      console.log(action.payload)
+      if (action.payload === 204) {
+        state.listCart = []
+        redirect('/successorder')
+      }
       state.isSend = false
     },
     [fetchCart.rejected]: (state, action) => {

@@ -35,7 +35,7 @@ export default function Product() {
     }
     const handlerAddCart = () => {
         dispatch(addCart({
-            id: id,
+            id: Number(id),
             title: currentProduct.title,
             size: size,
             count: count,

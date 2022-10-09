@@ -12,6 +12,7 @@ import Cart from './pages/Cart';
 import { useEffect } from 'react';
 import { syncFromLocalStorage } from './store/cartSlice';
 import { useDispatch } from 'react-redux';
+import Successorder from './pages/Successorder';
 
 function App() {
   const dispatch = useDispatch()
@@ -32,6 +33,7 @@ function App() {
             <Route path='/contacts' element={<Contacts />} />
             <Route path='/cart' element={<Cart />} />
             <Route path='*' element={<Page404 />} />
+            <Route path='/successorder' element={<Successorder />} />
           </Routes>
 
         </main>

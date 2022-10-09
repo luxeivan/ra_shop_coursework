@@ -13,6 +13,7 @@ export default function Cart() {
   }
   const handlerSubmit = (event) => {
     event.preventDefault()
+    console.log()
     dispatch(fetchCart(
       {
         "owner": {
