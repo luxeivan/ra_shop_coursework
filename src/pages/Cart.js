@@ -2,7 +2,7 @@ import { current } from '@reduxjs/toolkit'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { delCart } from '../store/cartSlice'
+import { delCart, fetchCart } from '../store/cartSlice'
 
 export default function Cart() {
   const cart = useSelector(store => store.cart)
@@ -10,6 +10,18 @@ export default function Cart() {
 
   const handlerDel = (event) => {
     dispatch(delCart(event.target.dataset.id))
+  }
+  const handlerSubmit = (event) => {
+    event.preventDefault()
+    dispatch(fetchCart(
+      {
+        "owner": {
+          "phone": document.getElementById('phone').value,
+          "address": document.getElementById('address').value,
+        },
+        "items": cart.listCart
+      }
+    ))
   }
   return (
     <>
@@ -49,20 +61,20 @@ export default function Cart() {
       <section className="order">
         <h2 className="text-center">Оформить заказ</h2>
         <div className="card card-cart">
-          <form className="card-body">
+          <form className="card-body" onSubmit={handlerSubmit}>
             <div className="form-group">
               <label htmlFor="phone">Телефон</label>
-              <input className="form-control" id="phone" placeholder="Ваш телефон" />
+              <input className="form-control" id="phone" placeholder="Ваш телефон" required />
             </div>
             <div className="form-group">
               <label htmlFor="address">Адрес доставки</label>
-              <input className="form-control" id="address" placeholder="Адрес доставки" />
+              <input className="form-control" id="address" placeholder="Адрес доставки" required />
             </div>
             <div className="form-group form-check">
-              <input type="checkbox" className="form-check-input" id="agreement" />
-              <label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
+              <input type="checkbox" className="form-check-input" id="agreement" required />
+              <label className="form-check-label" htmlFor="agreement" >Согласен с правилами доставки</label>
             </div>
-            <button type="submit" className="btn btn-outline-secondary">Оформить</button>
+            <button type="submit" className="btn btn-outline-secondary" disabled={cart.listCart.length === 0}>Оформить</button>
           </form>
         </div>
       </section>

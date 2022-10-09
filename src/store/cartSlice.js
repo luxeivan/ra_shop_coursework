@@ -1,9 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
+export const fetchCart = createAsyncThunk(
+  'cart/fetchCart',
+  async (order) => {
+    const data = await fetch('http://localhost:7070/api/order',
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(order)
+      }).then(responce => responce.json())
+    return data
+  }
+)
 
 export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    listCart: []
+    listCart: [],
+    isSend: false
   },
   reducers: {
     addCart: (state, action) => {
@@ -25,6 +42,18 @@ export const cartSlice = createSlice({
       }
     }
   },
+  extraReducers: {
+    [fetchCart.pending]: (state, action) => {
+      state.isSend = true
+    },
+    [fetchCart.fulfilled]: (state, action) => {
+      console.log(action.payload)
+      state.isSend = false
+    },
+    [fetchCart.rejected]: (state, action) => {
+
+    }
+  }
 })
 
 // Action creators are generated for each case reducer function

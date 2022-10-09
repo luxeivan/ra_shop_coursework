@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import Banner from '../components/Banner'
 import { fetchProduct } from '../store/productSlice'
 import { addCart } from '../store/cartSlice'
@@ -10,6 +10,7 @@ export default function Product() {
     const [count, setCount] = useState(1)
     const [size, setSize] = useState(null)
     const product = useSelector((state) => state.product)
+    const navigate = useNavigate()
     const id = useParams().id
     const dispatch = useDispatch()
     useEffect(() => {
@@ -40,6 +41,7 @@ export default function Product() {
             count: count,
             price: currentProduct.price,
         }))
+        navigate('/cart')
     }
     return (
         <>
