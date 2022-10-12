@@ -374,3 +374,11 @@ h2,
   max-width: 30rem; 
   margin: 0 auto;
 }
+.order_success{
+  height: calc(100vh - 200px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  font-size: 14px;
+}

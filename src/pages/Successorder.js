@@ -1,7 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function Successorder() {
   return (
-    <div>Заказ успешно совершен! Ожидайте звонка оператора</div>
-  )
+    <div className="order_success">
+      <h3 className="order_success_text">Заказ успешно совершен! Ожидайте звонка оператора</h3>
+    </div>
+  );
 }

@@ -1,12 +1,12 @@
-import { current } from '@reduxjs/toolkit'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, Navigate } from 'react-router-dom'
 import { delCart, fetchCart } from '../store/cartSlice'
 
 export default function Cart() {
   const cart = useSelector(store => store.cart)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handlerDel = (event) => {
     dispatch(delCart(event.target.dataset.id))
@@ -24,6 +24,9 @@ export default function Cart() {
       }
     ))
   }
+    if(cart.sendIsOk){
+      return <Navigate to={'/successorder'}/>
+    }
   return (
     <>
       <section className="cart">

@@ -21,7 +21,8 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     listCart: [],
-    isSend: false
+    isSend: false,
+    sendIsOk: false
   },
   reducers: {
     addCart: (state, action) => {
@@ -50,7 +51,8 @@ export const cartSlice = createSlice({
     [fetchCart.fulfilled]: (state, action) => {
       if (action.payload === 204) {
         state.listCart = []
-        redirect('/successorder')
+        localStorage.listCart = JSON.stringify(state.listCart)
+        state.sendIsOk = true
       }
       state.isSend = false
     },
