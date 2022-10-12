@@ -26,14 +26,14 @@ function App() {
         <main className="container">
 
           <Routes>
-            <Route path='/' element={<Main />} />
             <Route path='/about' element={<About />} />
             <Route path='/catalog' element={<Catalog />} />
             <Route path='/catalog/:id' element={<Product />} />
             <Route path='/contacts' element={<Contacts />} />
             <Route path='/cart' element={<Cart />} />
-            <Route path='*' element={<Page404 />} />
             <Route path='/successorder' element={<Successorder />} />
+            <Route exact path='/' element={<Main />} />
+            <Route path='*' element={<Page404 />} />
           </Routes>
 
         </main>

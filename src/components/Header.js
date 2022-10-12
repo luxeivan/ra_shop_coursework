@@ -42,7 +42,7 @@ export default function Header() {
             <div className="collapse navbar-collapse" id="navbarMain">
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/">Главная</NavLink>
+                  <NavLink className="nav-link" to="/" end>Главная</NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/catalog">Каталог</NavLink>
